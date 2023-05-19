@@ -116,8 +116,8 @@ ScrollView {
     }
     Flow { //Favorites
       id: flow
-      x: 0
       width: scrollView.width - 10 * PlasmaCore.Units.devicePixelRatio
+      spacing: 12
       Repeater {
         model: pinnedModel[0]
         delegate:

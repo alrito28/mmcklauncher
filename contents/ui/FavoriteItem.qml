@@ -25,13 +25,17 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.kcoreaddons 1.0 as KCoreAddons
 import org.kde.kirigami 2.13 as Kirigami
+import QtQuick.Controls 2.15
 
 import "../code/tools.js" as Tools
 
 Item {
   id: favItem
-  width: rect.width + 10 * PlasmaCore.Units.devicePixelRatio
-  height: rect.height + 10 * PlasmaCore.Units.devicePixelRatio
+
+  property int iconSize: units.gridUnit * 2.5
+
+  width:  Math.max(iconSize + units.largeSpacing * 2, appname.contentWidth) + 10
+  height: iconSize + units.smallSpacing + appname.implicitHeight + 10
 
   signal itemActivated(int index, string actionId, string argument)
 
@@ -56,43 +60,54 @@ Item {
           root.toggle();
       }
   }
+
+  PlasmaCore.IconItem {
+    id: appicon
+    anchors {
+      top: parent.top
+      horizontalCenter: parent.horizontalCenter
+    }
+    width: iconSize
+    height: iconSize
+    source: model.decoration
+  }
+
+  PlasmaComponents.Label {
+    id: appname
+    text: ("name" in model ? model.name : model.display)
+    font.family: main.textFont
+    font.pixelSize: 13 * PlasmaCore.Units.devicePixelRatio
+    anchors {
+      top: appicon.bottom
+      topMargin: units.smallSpacing
+      left: parent.left
+      right: parent.right
+    }
+    horizontalAlignment: Text.AlignHCenter
+    verticalAlignment: Text.AlignTop
+    wrapMode: Text.WordWrap
+  }
+  
   Rectangle {
     id: rect
-    x: 10 * PlasmaCore.Units.devicePixelRatio
-    y: 10 * PlasmaCore.Units.devicePixelRatio
-    width: appname.width + appicon.width + 3 * (10 * PlasmaCore.Units.devicePixelRatio) + 5 * PlasmaCore.Units.devicePixelRatio
-    height: 45 * PlasmaCore.Units.devicePixelRatio
     z: -20
-    color: plasmoid.configuration.theming == 0 ? "#202124" : plasmoid.configuration.theming == 1 ? "#E0E1E3" : PlasmaCore.Theme.buttonBackgroundColor
-    border.color: "transparent"
-    border.width: 1
-    radius: 6
-    PlasmaCore.IconItem {
-      x: 10 * PlasmaCore.Units.devicePixelRatio
-      anchors.verticalCenter: rect.verticalCenter
-      id: appicon
-      width: 25 * PlasmaCore.Units.devicePixelRatio
-      height: width
-      source: model.decoration
-      PlasmaComponents.Label {
-        id: appname
-        x: appicon.width + 10 * PlasmaCore.Units.devicePixelRatio
-        anchors.verticalCenter: appicon.verticalCenter
-        text: ("name" in model ? model.name : model.display)
-        color: plasmoid.configuration.theming != 2 ? main.textColor : PlasmaCore.Theme.buttonTextColor
-        font.family: main.textFont
-        font.pixelSize: 12 * PlasmaCore.Units.devicePixelRatio
-      }
-    }
+
+    height: parent.height
+    width: parent.width 
+    anchors.centerIn: parent
+    radius: 8
+    
+    color: PlasmaCore.Theme.highlightColor
     states: [
-    State {
-      name: "highlight"; when: (highlighted)
-      PropertyChanges { target: rect; color: plasmoid.configuration.theming == 0 ? "#292A2E" : plasmoid.configuration.theming == 1 ? "#FFFFFF" : PlasmaCore.Theme.buttonHoverColor }
-    },
-    State {
-      name: "default"; when: (!highlighted)
-      PropertyChanges { target: rect; color: plasmoid.configuration.theming == 0 ? "#202124" : plasmoid.configuration.theming == 1 ? "#F7F7F7" : PlasmaCore.Theme.buttonBackgroundColor }
-    }]
+      State {
+        name: "highlight"; when: (highlighted)
+        PropertyChanges { target: rect; opacity: 0.3}
+      },
+      State {
+        name: "default"; when: (!highlighted)
+        PropertyChanges { target: rect; opacity: 0}
+      }
+    ]
     transitions: highlight
   }
   MouseArea {
