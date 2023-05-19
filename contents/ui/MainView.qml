@@ -36,6 +36,8 @@ Item {
   readonly property color highlightedTextColor: PlasmaCore.Theme.highlightedTextColor
   readonly property bool isTop: plasmoid.location == PlasmaCore.Types.TopEdge & plasmoid.configuration.launcherPosition != 2 & !plasmoid.configuration.floating
 
+  property bool showAllApps: false
+
   KCoreAddons.KUser {
       id: kuser
   }
@@ -204,12 +206,85 @@ Item {
       }
     }
   }
+
+  // Fvorites / All apps label
+  Image {
+    id: headerLabel
+    source: "icons/feather/star.svg"
+    width: 15
+    height: width
+    y: backdrop.y + width
+    anchors.leftMargin: units.largeSpacing
+    anchors.topMargin:  units.largeSpacing
+    anchors.left: parent.left
+    
+    PlasmaComponents.Label {
+      id: mainLabelGrid
+      x: parent.width + 10
+      anchors.verticalCenter: parent.verticalCenter
+      text: i18n(showAllApps ? "All apps" : "Favorite Apps")
+      font.family: "SF Pro Text"
+      font.pixelSize: 12
+    }
+
+    ColorOverlay {
+      visible: true
+      anchors.fill: headerLabel
+      source: headerLabel
+      color: main.textColor
+    }
+  }
+  // Show all app buttons
+  PlasmaComponents.Button  {
+      MouseArea {
+          hoverEnabled: true
+          anchors.fill: parent
+          cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+          onClicked: showAllApps = !showAllApps
+      }
+      text: i18n(showAllApps ? "Back" : "All apps")
+      id: mainsecLabelGrid
+      icon.name: showAllApps ? "go-previous" : "go-next"
+      font.pointSize: 9
+      icon.height: 15
+      icon.width: icon.height
+      LayoutMirroring.enabled: true
+      LayoutMirroring.childrenInherit: !showAllApps 
+      flat: false
+      background: Rectangle {
+          color: Qt.lighter(theme.backgroundColor)
+          border.width: 1
+          border.color: Qt.darker(theme.backgroundColor, 1.14)
+          radius: 5
+      }
+      topPadding: 4
+      bottomPadding: topPadding
+      leftPadding: 8
+      rightPadding: 8
+      icon{
+          width: height
+          height: visible ? units.iconSizes.small : 0
+          name: showAllApps ? "go-previous" : "go-next"
+      }
+
+      anchors {
+        topMargin: units.smallSpacing
+        verticalCenter: headerLabel.verticalCenter
+        rightMargin: units.largeSpacing 
+        leftMargin: units.largeSpacing 
+        left: parent.left
+      }
+      x: -units.smallSpacing
+      visible: !searching
+  }
+
   //List of Apps
   AppList {
     id: appList
     state: "visible"
-    anchors.top: backdrop.top
+    anchors.top: headerLabel.bottom
     anchors.bottom: backdrop.bottom
+    anchors.topMargin: headerLabel.width
     width: main.width - 30 * PlasmaCore.Units.devicePixelRatio
     height: main.height - y
     visible: opacity > 0
@@ -270,59 +345,7 @@ Item {
       }
     ]
   }
-  //Shadows
-  Rectangle {
-    id: topShadow
-    z: parent.z + 1
-    width: main.width
-    height: 40 * PlasmaCore.Units.devicePixelRatio
-    anchors.top: backdrop.top
-    radius: isTop ? backdrop.radius : 0
-    gradient: Gradient {
-      GradientStop { position: 0.0; color: Qt.darker(backdrop.color, 1.5) }
-      GradientStop { position: 1.0; color: "transparent" }
-    }
-    states: [
-    State {
-      name: "visible"; when: (!searching ? appList.get_position() > 0.0 : runnerList.get_position() > 0.0 )
-      PropertyChanges { target: topShadow; opacity: 1.0 }
-    },
-    State {
-      name: "hidden"; when: (!searching ? appList.get_position() <= 0.0 : runnerList.get_position() <= 0.0)
-      PropertyChanges { target: topShadow; opacity: 0.0 }
-    }]
-    transitions: [
-      Transition {
-        NumberAnimation { properties: 'opacity'; duration: 40}
-      }
-    ]
-  }
-  Rectangle {
-    id: bottomShadow
-    z: parent.z + 1
-    width: main.width
-    height: 40 * PlasmaCore.Units.devicePixelRatio
-    anchors.bottom: backdrop.bottom
-    radius: !bottomCorner.visible ? backdrop.radius : 0
-    gradient: Gradient {
-      GradientStop { position: 0.0; color: "transparent" }
-      GradientStop { position: 1.0; color: Qt.darker(backdrop.color, 1.5)}
-    }
-    states: [
-    State {
-      name: "visible"; when: (!searching ? appList.get_position() <= (0.99999 - appList.get_size()) : runnerList.get_position() <= (runnerList.get_size()))
-      PropertyChanges { target: bottomShadow; opacity: 1.0 }
-    },
-    State {
-      name: "hidden"; when: (!searching ? appList.get_position() > (0.99999 - appList.get_size()) : runnerList.get_position() > (runnerList.get_size()))
-      PropertyChanges { target: bottomShadow; opacity: 0.0 }
-    }]
-    transitions: [
-      Transition {
-        NumberAnimation { properties: 'opacity'; duration: 40}
-      }
-    ]
-  }
+
   Keys.onPressed: {
     if (event.key == Qt.Key_Backspace) {
         event.accepted = true;

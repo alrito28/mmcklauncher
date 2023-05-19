@@ -86,38 +86,12 @@ ScrollView {
         scrollView.contentHeight = backdrop.height + 1
       }
     }
-    Item { //Spacer
-      width: 1
-      height: 20 * PlasmaCore.Units.devicePixelRatio
-    }
-    Image {
-      id: starImage
-        source: "icons/feather/star.svg"
-        width: 15 * PlasmaCore.Units.devicePixelRatio
-        height: width
-      PlasmaComponents.Label {
-        x: parent.width + 10 * PlasmaCore.Units.devicePixelRatio
-        anchors.verticalCenter: parent.verticalCenter
-        text: i18n("Favorite Apps")
-        color: main.textColor
-        font.family: main.textFont
-        font.pixelSize: 12 * PlasmaCore.Units.devicePixelRatio
-      }
-      ColorOverlay {
-        visible: plasmoid.configuration.theming != 0
-        anchors.fill: starImage
-        source: starImage
-        color: main.textColor
-      }
-    }
-    Item { //Spacer
-      width: 1
-      height: 10 * PlasmaCore.Units.devicePixelRatio
-    }
+
     Flow { //Favorites
       id: flow
       width: scrollView.width - 10 * PlasmaCore.Units.devicePixelRatio
       spacing: 12
+      visible: !main.showAllApps
       Repeater {
         model: pinnedModel[0]
         delegate:
@@ -126,14 +100,12 @@ ScrollView {
         }
       }
     }
-    Item { //Spacer
-      width: 1
-      height: 24 * PlasmaCore.Units.devicePixelRatio
-    }
+
     Image {
       id: sortingImage
       width: 15 * PlasmaCore.Units.devicePixelRatio
       height: width
+      visible: main.showAllApps
       //I don't like it this way but I have to assign custom images anyways, so it's not too bad... right?
       states: [
       State {
@@ -261,7 +233,7 @@ ScrollView {
         x: - 10 * PlasmaCore.Units.devicePixelRatio
         columns: 1
         width: scrollView.width - 10 * PlasmaCore.Units.devicePixelRatio
-        visible: opacity > 0
+        visible: opacity > 0 && main.showAllApps
         Repeater {
           id: allAppsRepeater
           model: allAppsModel[0]
@@ -308,7 +280,7 @@ ScrollView {
         id: appCategories
         columns: 1
         width: scrollView.width - 10 * PlasmaCore.Units.devicePixelRatio
-        visible: opacity > 0
+        visible: opacity > 0 && main.showAllApps
         Repeater {
           id: categoriesRepeater
           delegate:
@@ -352,7 +324,7 @@ ScrollView {
         id: appCategories2
         columns: 1
         width: scrollView.width - 10 * PlasmaCore.Units.devicePixelRatio
-        visible: opacity > 0
+        visible: opacity > 0 && main.showAllApps
         Repeater {
           id: categoriesRepeater2
           delegate:
