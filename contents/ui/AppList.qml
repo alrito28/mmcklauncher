@@ -91,6 +91,7 @@ ScrollView {
       id: flow
       width: scrollView.width - 10 * PlasmaCore.Units.devicePixelRatio
       spacing: 12
+      leftPadding: 20
       visible: !main.showAllApps
       Repeater {
         model: pinnedModel[0]

@@ -131,8 +131,8 @@ PlasmaCore.Dialog {
     FocusScope {
         id: fs
         focus: true
-        Layout.minimumWidth: 515 * PlasmaCore.Units.devicePixelRatio
-        Layout.minimumHeight: 600 * PlasmaCore.Units.devicePixelRatio
+        Layout.minimumWidth: 600 * PlasmaCore.Units.devicePixelRatio
+        Layout.minimumHeight: 550 * PlasmaCore.Units.devicePixelRatio
         Layout.maximumWidth: Layout.minimumWidth
         Layout.maximumHeight: Layout.minimumHeight
 

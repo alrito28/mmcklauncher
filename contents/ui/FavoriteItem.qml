@@ -32,7 +32,7 @@ import "../code/tools.js" as Tools
 Item {
   id: favItem
 
-  property int iconSize: units.gridUnit * 2.5
+  property int iconSize: units.gridUnit * 3.2
 
   width:  Math.max(iconSize + units.largeSpacing * 2, appname.contentWidth) + 10
   height: iconSize + units.smallSpacing + appname.implicitHeight + 10
@@ -76,7 +76,7 @@ Item {
     id: appname
     text: ("name" in model ? model.name : model.display)
     font.family: main.textFont
-    font.pixelSize: 13 * PlasmaCore.Units.devicePixelRatio
+    font.pixelSize: 14 * PlasmaCore.Units.devicePixelRatio
     anchors {
       top: appicon.bottom
       topMargin: units.smallSpacing
