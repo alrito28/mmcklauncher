@@ -29,8 +29,11 @@ Item {
   property bool searching: (searchBar.text != "")
   signal  newTextQuery(string text)
 
-  readonly property color textColor: plasmoid.configuration.theming == 0 ? "#FFFFFF" : plasmoid.configuration.theming == 1 ? "#000000" : PlasmaCore.Theme.textColor
-  readonly property string textFont: plasmoid.configuration.theming == 2 ? PlasmaCore.Theme.defaultFont : "SF Pro Text" //This is the font that was used in the original design by Max McKinney
+  readonly property color textColor: PlasmaCore.Theme.textColor
+  readonly property string textFont: "SF Pro Text"
+  readonly property color bgColor: PlasmaCore.Theme.backgroundColor
+  readonly property color highlightColor: PlasmaCore.Theme.highlightColor
+  readonly property color highlightedTextColor: PlasmaCore.Theme.highlightedTextColor
   readonly property bool isTop: plasmoid.location == PlasmaCore.Types.TopEdge & plasmoid.configuration.launcherPosition != 2 & !plasmoid.configuration.floating
 
   KCoreAddons.KUser {
@@ -69,24 +72,7 @@ Item {
     y: isTop ? 0 : 200 * PlasmaCore.Units.devicePixelRatio
     width: main.width
     height: isTop ? main.height - 200 * PlasmaCore.Units.devicePixelRatio : main.height - y
-    color: plasmoid.configuration.theming == 0 ? "#131314" : plasmoid.configuration.theming == 1 ? "#ECEDEE" : PlasmaCore.Theme.backgroundColor
-    radius: 10
-    Rectangle {
-      id: topCorner
-      visible: true
-      anchors.top: backdrop.top
-      color: backdrop.color
-      width: backdrop.width
-      height: 20
-    }
-    Rectangle {
-      id: bottomCorner
-      visible: !plasmoid.configuration.floating
-      anchors.bottom: backdrop.bottom
-      color: backdrop.color
-      width: backdrop.width
-      height: 20
-    }
+    color: bgColor
   }
   //Floating Avatar
   Item {
@@ -131,7 +117,7 @@ Item {
       width: main.width - 2 * x
       height: 45 * PlasmaCore.Units.devicePixelRatio
       radius: 6
-      color: plasmoid.configuration.theming == 0 ? "#202124" : plasmoid.configuration.theming == 1 ? "#FFFFFF" : PlasmaCore.Theme.viewBackgroundColor
+      color: bgColor
       Image {
         id: searchIcon
         x: 15 * PlasmaCore.Units.devicePixelRatio
@@ -140,7 +126,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         source: 'icons/feather/search.svg'
         ColorOverlay {
-          visible: plasmoid.configuration.theming != 0
+          visible: true
           anchors.fill: searchIcon
           source: searchIcon
           color: main.textColor
@@ -165,13 +151,13 @@ Item {
           focus: true
           color: textColor
           selectByMouse: true
-          selectionColor: plasmoid.configuration.theming == 0 ? "#141414" : plasmoid.configuration.theming == 1 ? "#EBEBEB" : PlasmaCore.Theme.highlightedTextColor
+          selectionColor: highlightedTextColor
           font.family: textFont
           font.pixelSize: 13 * PlasmaCore.Units.devicePixelRatio
           Text {
             anchors.fill: parent
             text: i18n("Search your computer")
-            color: plasmoid.configuration.theming == 0 ? "#686B71" : plasmoid.configuration.theming == 1 ? "#798591" : PlasmaCore.Theme.disabledTextColor
+            color: PlasmaCore.Theme.disabledTextColor
             visible: !parent.text
           }
           onTextChanged: {
