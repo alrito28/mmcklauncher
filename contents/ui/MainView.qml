@@ -287,7 +287,7 @@ Item {
     anchors.top: headerLabel.bottom
     anchors.topMargin: showAllApps ? headerLabel.width : headerLabel.width * 2
     width: main.width - 30 * PlasmaCore.Units.devicePixelRatio
-    height: showAllApps ? main.height - y - (searchBarContainer.height + 40) : main.height - y
+    height: showAllApps ? backdrop.height - (headerLabel.height * 3.5) : main.height - y
     visible: opacity > 0
     states: [
     State {
@@ -321,7 +321,7 @@ Item {
     anchors.top: headerLabel.bottom
     anchors.topMargin: headerLabel.width 
     width: main.width - 30 * PlasmaCore.Units.devicePixelRatio
-    height: main.height - y - (searchBarContainer.height + 40)
+    height: backdrop.height - (headerLabel.height * 3.5)
     states: [
     State {
       name: "visible"; when: (searching)
