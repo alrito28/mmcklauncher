@@ -76,17 +76,13 @@ Item {
     highlighted = false
     listView.currentIndex = -1
   }
-  Rectangle {
+  Item {
     id: rect
     x: 10 * PlasmaCore.Units.devicePixelRatio
     y: 10 * PlasmaCore.Units.devicePixelRatio
     width: main.width - 40 * PlasmaCore.Units.devicePixelRatio - allItem.x
     height: 38 * PlasmaCore.Units.devicePixelRatio
-    z: -20
-    color: backdrop.color
-    border.color: "transparent"
-    border.width: 1
-    radius: 6
+    
     PlasmaCore.IconItem {
       x: 9 * PlasmaCore.Units.devicePixelRatio
       anchors.verticalCenter: rect.verticalCenter
@@ -107,12 +103,12 @@ Item {
     states: [
     State {
       name: "highlight"; when: !canNavigate ? highlighted : runnerList.currentMainIndex == index && runnerList.currentSubIndex == subIndex
-      PropertyChanges { target: rect; color: highlightColor}
+      PropertyChanges { target: rectFill; opacity: 0.3}
       PropertyChanges { target: appname; color: highlightedTextColor}
     },
     State {
       name: "default"; when: !canNavigate ? !highlighted : runnerList.currentMainIndex != index || runnerList.currentSubIndex != subIndex
-      PropertyChanges { target: rect; color: backdrop.color}
+      PropertyChanges { target: rectFill; opacity: 0}
       PropertyChanges { target: appname; color: textColor}
     }]
     transitions: highlight
@@ -122,6 +118,15 @@ Item {
       }
     }
   }
+  
+  Rectangle {
+    id: rectFill
+    color: PlasmaCore.Theme.highlightColor
+    radius: 6
+    z: -20
+    anchors.fill: rect
+  }
+
   MouseArea {
       id: ma
       anchors.fill: parent
