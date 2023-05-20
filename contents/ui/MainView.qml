@@ -71,10 +71,11 @@ Item {
   Rectangle {
     id: backdrop
     x: 0
-    y: isTop ? 0 : 200 * PlasmaCore.Units.devicePixelRatio
+    y: isTop ? 0 : 125 * PlasmaCore.Units.devicePixelRatio
     width: main.width
-    height: isTop ? main.height - 200 * PlasmaCore.Units.devicePixelRatio : main.height - y
+    height: isTop ? main.height - 200 * PlasmaCore.Units.devicePixelRatio : main.height - y - (searchBarContainer.height + 20)
     color: bgColor
+    opacity: 0
   }
   //Floating Avatar
   Item {
@@ -115,11 +116,12 @@ Item {
   //Searchbar
   Item {
     Rectangle {
-      x: 25 * PlasmaCore.Units.devicePixelRatio
-      y: isTop ? main.height - height - (2 * powerSettings.height + powerSettings.iconSize / 2) - 10 * PlasmaCore.Units.devicePixelRatio : 125 * PlasmaCore.Units.devicePixelRatio
+      id: searchBarContainer
+      x: headerLabel.width * PlasmaCore.Units.devicePixelRatio
+      y: isTop ? main.height - height - (2 * powerSettings.height + powerSettings.iconSize / 2) - 10 * PlasmaCore.Units.devicePixelRatio : main.height - (height + x) * PlasmaCore.Units.devicePixelRatio
       width: main.width - 2 * x
       height: 45 * PlasmaCore.Units.devicePixelRatio
-      radius: 6
+      radius: 8
       color: bgColor
       Image {
         id: searchIcon
@@ -283,10 +285,9 @@ Item {
     id: appList
     state: "visible"
     anchors.top: headerLabel.bottom
-    anchors.bottom: backdrop.bottom
-    anchors.topMargin: headerLabel.width
+    anchors.topMargin: showAllApps ? headerLabel.width : headerLabel.width * 2
     width: main.width - 30 * PlasmaCore.Units.devicePixelRatio
-    height: main.height - y
+    height: showAllApps ? main.height - y - (searchBarContainer.height + 40) : main.height - y
     visible: opacity > 0
     states: [
     State {
@@ -317,10 +318,10 @@ Item {
     model: runnerModel
     state: "hidden"
     visible: opacity > 0
-    anchors.top: backdrop.top
-    anchors.bottom: backdrop.bottom
+    anchors.top: headerLabel.bottom
+    anchors.topMargin: headerLabel.width 
     width: main.width - 30 * PlasmaCore.Units.devicePixelRatio
-    height: backdrop.height
+    height: main.height - y - (searchBarContainer.height + 40)
     states: [
     State {
       name: "visible"; when: (searching)

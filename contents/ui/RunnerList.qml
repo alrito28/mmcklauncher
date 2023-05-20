@@ -81,7 +81,6 @@ PlasmaExtras.ScrollArea {
   }
 
   Column {
-    y: 25 * PlasmaCore.Units.devicePixelRatio
     x: -10 * PlasmaCore.Units.devicePixelRatio
     Repeater {
       id: repeater
@@ -194,10 +193,6 @@ PlasmaExtras.ScrollArea {
           destination: findWheelArea(runnerList.flickableItem)
         }
       }
-    }
-    Item {
-      width: 1
-      height: 40 * PlasmaCore.Units.devicePixelRatio
     }
   }
 }
