@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=MMcK Launcher
-Comment=A modern Launcher!
+Name=Andromeda Launcher
+Comment=A modern Launcher for plasma!
 
 Type=Service
 Icon=start-here-kde
@@ -10,10 +10,10 @@ X-Plasma-API=declarativeappletscript
 X-Plasma-MainScript=ui/main.qml
 X-Plasma-Provides=org.kde.plasma.launchermenu
 
-X-KDE-PluginInfo-Author=Friedrich Schriewer
-X-KDE-PluginInfo-Email=friedrich.schriewer@gmx.net
-X-KDE-PluginInfo-Name=com.github.SnoutBug.mmckLauncher
+X-KDE-PluginInfo-Author=EliverLara
+X-KDE-PluginInfo-Email=eliverlara@gmail.com
+X-KDE-PluginInfo-Name=AndromedaLauncher
 X-KDE-PluginInfo-Version=0.6
-X-KDE-PluginInfo-Website=https://github.com/SnoutBug/plasmoid-mmckLauncher
+X-KDE-PluginInfo-Website=https://github.com/EliverLara/AndromedaLauncher
 X-KDE-PluginInfo-Category=Application Launchers
 X-KDE-PluginInfo-EnabledByDefault=true
