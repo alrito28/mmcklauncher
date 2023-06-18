@@ -91,7 +91,7 @@ Item {
   Rectangle {
     id: rect
     z: -20
-
+    visible: !plasmoid.configuration.enableGlow
     height: parent.height
     width: parent.width 
     anchors.centerIn: parent
@@ -110,6 +110,46 @@ Item {
     ]
     transitions: highlight
   }
+
+  DropShadow {
+    id:appIconGlow
+    visible: plasmoid.configuration.enableGlow
+    anchors.fill: appicon
+    cached: true
+    horizontalOffset: 0
+    verticalOffset: 0
+    radius: 15.0
+    samples: 16
+    color: main.glowColor1
+    source: appicon
+    states: [
+      State {
+        name: "highlight"; when: (highlighted)
+        PropertyChanges { target: appIconGlow; opacity: 1}
+         PropertyChanges { target: appNameGlow; opacity: 1}
+      },
+      State {
+        name: "default"; when: (!highlighted)
+        PropertyChanges { target: appIconGlow; opacity: 0}
+        PropertyChanges { target: appNameGlow; opacity: 0}
+      }
+    ]
+    transitions: highlight
+  }
+
+  DropShadow {
+    id: appNameGlow
+    visible: plasmoid.configuration.enableGlow
+    anchors.fill: appname
+    cached: true
+    horizontalOffset: 0
+    verticalOffset: 0
+    radius: 15.0
+    samples: 16
+    color: main.glowColor1
+    source: appname
+  }
+  
   MouseArea {
       id: ma
       anchors.fill: parent
@@ -134,10 +174,15 @@ Item {
         isDraging: false
       }
       onEntered: {
-        rect.state = "highlight"
+        if(plasmoid.configuration.enableGlow) {
+          appIconGlow.state = "highlight"
+        } else { rect.state = "highlight" }
+        
       }
       onExited: {
-        rect.state = "default"
+        if(plasmoid.configuration.enableGlow) {
+          appIconGlow.state = "default"
+        } else { rect.state = "default" }
       }
       onPositionChanged: {
         isDraging = pressed

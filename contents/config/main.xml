@@ -58,6 +58,14 @@
       <label>Gives the launcher some breathing room.</label>
       <default>false</default>
     </entry>
+    <entry name="enableGlow" type="Bool">
+      <label>Gives the launcher elements some glow.</label>
+      <default>false</default>
+    </entry>
+    <entry name="glowColor" type="Int">
+      <label>Color of the glow</label>
+      <default>0</default>
+    </entry>
     <entry name="useExtraRunners" type="Bool">
       <label>Whether to use additional KRunner plugins to produce results in the search.</label>
       <default>true</default>

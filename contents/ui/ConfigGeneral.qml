@@ -54,6 +54,9 @@ Kirigami.FormLayout {
     property alias cfg_offsetX: screenOffset.value
     property alias cfg_offsetY: panelOffset.value
 
+    property alias cfg_enableGlow: enableGlowCheck.checked
+    property alias cfg_glowColor: glowColor.currentIndex
+
     Button {
         id: iconButton
 
@@ -200,6 +203,28 @@ Kirigami.FormLayout {
       id: customGreeting
       Kirigami.FormData.label: i18n("Custom Greeting Text:")
       placeholderText: i18n("No custom greeting set")
+    }
+    Item {
+        Kirigami.FormData.isSection: true
+    }
+    CheckBox {
+      id: enableGlowCheck
+      Kirigami.FormData.label: i18n("Glow")
+      text: i18n("Enabled")
+      checked: plasmoid.configuration.enableGlow
+      onCheckedChanged: {
+        plasmoid.configuration.enableGlow = checked
+      }
+    }
+    ComboBox {
+        id: glowColor
+        Kirigami.FormData.label: i18n("Glow color:")
+        visible: plasmoid.configuration.enableGlow
+        model: [
+            i18n("Purple (Default)"),
+            i18n("Blue"),
+            i18n("Red"),
+        ]
     }
     Item {
         Kirigami.FormData.isSection: true

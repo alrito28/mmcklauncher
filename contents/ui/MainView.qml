@@ -36,6 +36,13 @@ Item {
   readonly property color highlightedTextColor: PlasmaCore.Theme.highlightedTextColor
   readonly property bool isTop: plasmoid.location == PlasmaCore.Types.TopEdge & plasmoid.configuration.launcherPosition != 2 & !plasmoid.configuration.floating
 
+  readonly property color glowColor1: plasmoid.configuration.glowColor == 0 ? "#D300DC" :
+                                      plasmoid.configuration.glowColor == 1 ? "#20bdff" :
+                                      "#ff005d"
+  readonly property color glowColor2: plasmoid.configuration.glowColor == 0 ? "#8700FF" :
+                                      plasmoid.configuration.glowColor == 1 ? "#5433ff" :
+                                      "#ff8b26"
+
   property bool showAllApps: false
 
   KCoreAddons.KUser {
@@ -102,7 +109,7 @@ Item {
   //Greeting
   Item {
     id: greeting
-    PlasmaComponents.Label {
+    Text {
       id: nameLabel
       x: main.width / 2 - width / 2 //This centeres the Text
       y: isTop ? main.height - height - 135 * PlasmaCore.Units.devicePixelRatio : 70 * PlasmaCore.Units.devicePixelRatio
@@ -111,6 +118,18 @@ Item {
       font.family: textFont
       font.pixelSize: 25 * PlasmaCore.Units.devicePixelRatio
       font.bold: true
+    }
+    // Text shadow for greeting label
+    DropShadow {
+        anchors.fill: nameLabel
+        cached: true
+        horizontalOffset: 0
+        verticalOffset: 0
+        radius: 10.0
+        samples: 16
+        color: glowColor1
+        source: nameLabel
+        visible: plasmoid.configuration.enableGlow
     }
   }
   //Searchbar
@@ -122,7 +141,7 @@ Item {
       width: main.width - 2 * x
       height: 45 * PlasmaCore.Units.devicePixelRatio
       radius: 8
-      color: bgColor
+      color: Qt.lighter(theme.backgroundColor) // better contrast color 
       Image {
         id: searchIcon
         x: 15 * PlasmaCore.Units.devicePixelRatio
@@ -254,10 +273,39 @@ Item {
       LayoutMirroring.childrenInherit: !showAllApps 
       flat: false
       background: Rectangle {
-          color: Qt.lighter(theme.backgroundColor)
-          border.width: 1
-          border.color: Qt.darker(theme.backgroundColor, 1.14)
-          radius: 5
+        color: Qt.lighter(theme.backgroundColor)
+        border.width: 1
+        border.color: Qt.darker(theme.backgroundColor, 1.14)
+        radius: plasmoid.configuration.enableGlow ? height / 2 : 5
+
+        Rectangle {
+          id: bgMask
+          width: parent.width
+          height: parent.height
+          radius: height / 2
+          border.width: 0
+          visible: plasmoid.configuration.enableGlow
+        }
+        Item {
+          visible: plasmoid.configuration.enableGlow
+          anchors.fill: bgMask
+          // x: container.x - 20
+          layer.enabled: true
+          layer.effect: OpacityMask {
+              maskSource: bgMask
+          }
+
+          LinearGradient {
+              anchors.fill: parent
+              start: Qt.point(bgMask.width, 0)
+              end: Qt.point(0, bgMask.height)
+              gradient: Gradient {
+                  GradientStop { position: 0.0; color: glowColor1 }
+                  GradientStop { position: 1.0; color: glowColor2 }
+              }
+          }
+        }
+
       }
       topPadding: 4
       bottomPadding: topPadding
@@ -279,7 +327,19 @@ Item {
       x: -units.smallSpacing
       visible: !searching
   }
-
+  // All apps button shadow
+  DropShadow {
+      anchors.fill: mainsecLabelGrid
+      cached: true
+      horizontalOffset: 0
+      verticalOffset: 0
+      radius: 11.0
+      samples: 16
+      color: glowColor1
+      source: mainsecLabelGrid
+      visible: plasmoid.configuration.enableGlow
+  }
+ 
   //List of Apps
   AppList {
     id: appList
