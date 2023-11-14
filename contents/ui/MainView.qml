@@ -284,10 +284,10 @@ Item {
           height: parent.height
           radius: height / 2
           border.width: 0
-          visible: plasmoid.configuration.enableGlow
+          visible: plasmoid.configuration.enableGlow && !searching
         }
         Item {
-          visible: plasmoid.configuration.enableGlow
+          visible: plasmoid.configuration.enableGlow && !searching
           anchors.fill: bgMask
           // x: container.x - 20
           layer.enabled: true
@@ -337,7 +337,7 @@ Item {
       samples: 16
       color: glowColor1
       source: mainsecLabelGrid
-      visible: plasmoid.configuration.enableGlow
+      visible: plasmoid.configuration.enableGlow && !searching
   }
  
   //List of Apps
