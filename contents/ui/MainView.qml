@@ -345,9 +345,9 @@ Item {
     id: appList
     state: "visible"
     anchors.top: headerLabel.bottom
-    anchors.topMargin: showAllApps ? headerLabel.width : headerLabel.width * 2
+    anchors.topMargin: showAllApps ? headerLabel.width : headerLabel.width * 1.5
     width: main.width - 30 * PlasmaCore.Units.devicePixelRatio
-    height: showAllApps ? backdrop.height - (headerLabel.height * 3.5) : main.height - y
+    height: backdrop.height - (headerLabel.height * 3.4) 
     visible: opacity > 0
     states: [
     State {
