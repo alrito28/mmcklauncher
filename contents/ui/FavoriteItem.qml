@@ -76,7 +76,7 @@ Item {
     id: appname
     text: ("name" in model ? model.name : model.display)
     font.family: main.textFont
-    font.pixelSize: 14 * PlasmaCore.Units.devicePixelRatio
+    font.pointSize: main.textSize
     anchors {
       top: appicon.bottom
       topMargin: units.smallSpacing

@@ -70,5 +70,9 @@
       <label>The plugin id's of additional KRunner plugins to use. Only used if useExtraRunners is true.</label>
       <default>shell,bookmarks,baloosearch,locations</default>
     </entry>
+    <entry name="useSystemmFontSettings" type="Bool">
+      <label>Uses system font settings instead of themes's default.</label>
+      <default>false</default>
+    </entry>
   </group>
 </kcfg>

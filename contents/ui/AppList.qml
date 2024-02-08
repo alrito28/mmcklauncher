@@ -142,7 +142,7 @@ ScrollView {
         text: i18n(scrollView.currentSelectedCategory.name)
         color: main.textColor
         font.family: main.textFont
-        font.pixelSize: 12 * PlasmaCore.Units.devicePixelRatio
+        font.pointSize: main.textSize
       }
       MouseArea {
         id: mouseArea

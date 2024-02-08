@@ -30,7 +30,8 @@ Item {
   signal  newTextQuery(string text)
 
   readonly property color textColor: PlasmaCore.Theme.textColor
-  readonly property string textFont: "SF Pro Text"
+  readonly property string textFont: plasmoid.configuration.useSystemFontSettings ? PlasmaCore.Theme.defaultFont : "SF Pro Text"
+  readonly property real textSize: plasmoid.configuration.useSystemFontSettings ? PlasmaCore.Theme.defaultFont.pointSize : 11
   readonly property color bgColor: PlasmaCore.Theme.backgroundColor
   readonly property color highlightColor: PlasmaCore.Theme.highlightColor
   readonly property color highlightedTextColor: PlasmaCore.Theme.highlightedTextColor
@@ -244,8 +245,8 @@ Item {
       x: parent.width + 10
       anchors.verticalCenter: parent.verticalCenter
       text: i18n(showAllApps ? "All apps" : "Favorite Apps")
-      font.family: "SF Pro Text"
-      font.pixelSize: 12
+      font.family: textFont
+      font.pointSize: textSize
     }
 
     ColorOverlay {
@@ -266,7 +267,8 @@ Item {
       text: i18n(showAllApps ? "Back" : "All apps")
       id: mainsecLabelGrid
       icon.name: showAllApps ? "go-previous" : "go-next"
-      font.pointSize: 9
+      font.pointSize: textSize
+      font.family: textFont
       icon.height: 15
       icon.width: icon.height
       LayoutMirroring.enabled: true

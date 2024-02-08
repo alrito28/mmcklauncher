@@ -97,7 +97,7 @@ Item {
         text: ("name" in model ? model.name : model.display)
         color: main.textColor
         font.family: main.textFont
-        font.pixelSize: 12 * PlasmaCore.Units.devicePixelRatio
+        font.pointSize: main.textSize
       }
     }
     states: [

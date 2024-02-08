@@ -56,6 +56,8 @@ Kirigami.FormLayout {
     property alias cfg_enableGlow: enableGlowCheck.checked
     property alias cfg_glowColor: glowColor.currentIndex
 
+    property alias cfg_useSystemFontSettings: useSystemFontSettings.checked
+
     Button {
         id: iconButton
 
@@ -305,5 +307,16 @@ Kirigami.FormLayout {
         id: useExtraRunners
         Kirigami.FormData.label: i18n("Search:")
         text: i18n("Expand search to bookmarks, files and emails")
+    }
+
+    Item {
+      Kirigami.FormData.isSection: true
+    }
+
+    CheckBox {
+      id: useSystemFontSettings
+      Kirigami.FormData.label: i18n("Use system font settings")
+      text: i18n("Enabled")
+      checked: plasmoid.configuration.useSystemFontSettings
     }
 }
