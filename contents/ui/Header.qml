@@ -26,23 +26,20 @@ import org.kde.kquickcontrolsaddons 2.0 as KQuickAddons
 
 Item {
   property var iconSize
-  width: iconSize * 3.75
+  width: iconSize * 3.55
   height: iconSize
   PlasmaComponents.RoundButton {
     id: settingsButton
     visible: true
     flat: true
-    height: iconSize * 2
+    height: iconSize * 1.5
     width: height
     anchors.left: parent.left
 
     PlasmaComponents.ToolTip {
         text: i18n("Settings")
     }
-    Item {
-      id: visualParentSettings
-      y: 2 * iconSize
-    }
+
     Image {
       id: settingsImage
       anchors.verticalCenter: parent.verticalCenter
@@ -67,7 +64,7 @@ Item {
     id: powerOffButton
     visible: true
     flat: true
-    height: iconSize * 2
+    height: iconSize * 1.5
     width: height
     anchors.right: parent.right
 

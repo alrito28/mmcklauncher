@@ -22,6 +22,8 @@ import QtGraphicalEffects 1.12
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 3.0 as PlasmaComponents
 import org.kde.kcoreaddons 1.0 as KCoreAddons
+import org.kde.kirigami 2.13 as Kirigami
+
 
 Item {
   id: main
@@ -79,9 +81,9 @@ Item {
   Rectangle {
     id: backdrop
     x: 0
-    y: isTop ? 0 : 125 * PlasmaCore.Units.devicePixelRatio
+    y:  125 * PlasmaCore.Units.devicePixelRatio
     width: main.width
-    height: isTop ? main.height - 200 * PlasmaCore.Units.devicePixelRatio : main.height - y - (searchBarContainer.height + 20)
+    height: isTop ? main.height - y - units.largeSpacing  : main.height - y - (searchBarContainer.height + 20)
     color: bgColor
     opacity: 0
   }
@@ -98,47 +100,67 @@ Item {
       visible: root.visible && !isTop ? true : root.visible && plasmoid.configuration.floating ? true : false
     }
   }
+  
   //Power & Settings
-  Item {
+
+  RowLayout {
+    id: headerBar
+    width: main.width
+    UserAvatar {
+      width: plasmoid.configuration.enableGlow ? 45 * PlasmaCore.Units.devicePixelRatio : 50 * PlasmaCore.Units.devicePixelRatio
+      height: width
+      Layout.leftMargin: units.mediumSpacing
+      Layout.topMargin: units.mediumSpacing
+      visible: !floatingAvatar.visible
+    }
+
+    Greeting {
+      id: greetingTop
+      Layout.fillHeight: false
+      Layout.fillWidth: true
+      Layout.topMargin: -10
+      Layout.leftMargin: 10
+      Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+      textSize: main.fontSize
+      visible: !floatingAvatar.visible
+    }
+
     Header {
       id: powerSettings
-      x: main.width - width - iconSize / 2
-      y: isTop ? main.height - 2 * height - iconSize / 2 : iconSize / 2
       iconSize: 20 * PlasmaCore.Units.devicePixelRatio
+      Layout.fillHeight: false
+      Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+      Layout.rightMargin: units.mediumSpacing
+      Layout.topMargin: isTop ?  units.smallSpacing : units.largeSpacing
     }
+
   }
+
+  Rectangle {
+    id: headerBarFill
+    height: headerBar.height + searchBarContainer.height + 25
+    width: root.width
+    color: Qt.rgba(main.bgColor.r, main.bgColor.g, main.bgColor.b, 0.3)
+    x: 0
+    y: 0
+    visible: isTop
+    z: -1
+  }
+  
   //Greeting
-  Item {
+  Greeting {
     id: greeting
-    Text {
-      id: nameLabel
-      x: main.width / 2 - width / 2 //This centeres the Text
-      y: isTop ? main.height - height - 135 * PlasmaCore.Units.devicePixelRatio : 70 * PlasmaCore.Units.devicePixelRatio
-      text: plasmoid.configuration.enableGreeting && plasmoid.configuration.customGreeting ? plasmoid.configuration.customGreeting : plasmoid.configuration.enableGreeting ? 'Hi, ' + kuser.fullName : i18n("%1@%2", kuser.loginName, kuser.host)
-      color: textColor
-      font.family: textFont
-      font.pixelSize: 25 * PlasmaCore.Units.devicePixelRatio
-      font.bold: true
-    }
-    // Text shadow for greeting label
-    DropShadow {
-        anchors.fill: nameLabel
-        cached: true
-        horizontalOffset: 0
-        verticalOffset: 0
-        radius: 10.0
-        samples: 16
-        color: glowColor1
-        source: nameLabel
-        visible: plasmoid.configuration.enableGlow
-    }
+    visible: floatingAvatar.visible
+    x: main.width / 2 - textWidth / 2 //This centeres the Text
+    y: 70 * PlasmaCore.Units.devicePixelRatio
+    textSize: 25 * PlasmaCore.Units.devicePixelRatio
   }
   //Searchbar
   Item {
     Rectangle {
       id: searchBarContainer
       x: headerLabel.width * PlasmaCore.Units.devicePixelRatio
-      y: isTop ? main.height - height - (2 * powerSettings.height + powerSettings.iconSize / 2) - 10 * PlasmaCore.Units.devicePixelRatio : main.height - (height + x) * PlasmaCore.Units.devicePixelRatio
+      y: isTop ? headerBar.height + 10 : main.height - (height + x) * PlasmaCore.Units.devicePixelRatio
       width: main.width - 2 * x
       height: 45 * PlasmaCore.Units.devicePixelRatio
       radius: 8

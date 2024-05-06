@@ -55,45 +55,45 @@ PlasmaCore.Dialog { //cosmic background noise is less random than the placement 
       }
     }
   }
-  Item {
+  UserAvatar {
     id: avatarFrame
     anchors.centerIn: parent
     width: avatarWidth
     height: avatarWidth
-    Kirigami.Avatar {
-      id: mainFaceIcon
-      source: kuser.faceIconUrl
-      anchors {
-        fill: parent
-        margins: PlasmaCore.Units.smallSpacing
-      }
-      MouseArea {
-        anchors.fill: parent
-        cursorShape: Qt.PointingHandCursor
-        hoverEnabled: false
-        onClicked: {
-          KQuickAddons.KCMShell.openSystemSettings("kcm_users")
-          root.toggle()
-        }
-      }
-    }
+    // Kirigami.Avatar {
+    //   id: mainFaceIcon
+    //   source: kuser.faceIconUrl
+    //   anchors {
+    //     fill: parent
+    //     margins: PlasmaCore.Units.smallSpacing
+    //   }
+    //   MouseArea {
+    //     anchors.fill: parent
+    //     cursorShape: Qt.PointingHandCursor
+    //     hoverEnabled: false
+    //     onClicked: {
+    //       KQuickAddons.KCMShell.openSystemSettings("kcm_users")
+    //       root.toggle()
+    //     }
+    //   }
+    // }
    
-    Rectangle {
-      visible: plasmoid.configuration.enableGlow
-      anchors.centerIn: mainFaceIcon
-      width: parent.width - 4 // Subtract to prevent fringing
-      height: width
-      radius: width / 2
+    // Rectangle {
+    //   visible: plasmoid.configuration.enableGlow
+    //   anchors.centerIn: mainFaceIcon
+    //   width: parent.width - 4 // Subtract to prevent fringing
+    //   height: width
+    //   radius: width / 2
       
-      gradient: Gradient {
-          GradientStop { position: 0.0; color: borderGradientColor1 }
-          GradientStop { position: 0.33; color: borderGradientColor2 }
-          GradientStop { position: 1.0; color: borderGradientColor3 }
-      }
+    //   gradient: Gradient {
+    //       GradientStop { position: 0.0; color: borderGradientColor1 }
+    //       GradientStop { position: 0.33; color: borderGradientColor2 }
+    //       GradientStop { position: 1.0; color: borderGradientColor3 }
+    //   }
 
-      z:-1
-      rotation: 270
-      transformOrigin: Item.Center
-    }
+    //   z:-1
+    //   rotation: 270
+    //   transformOrigin: Item.Center
+    // }
   }
 }
