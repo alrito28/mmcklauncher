@@ -117,7 +117,7 @@ Item {
       id: nameLabel
       x: main.width / 2 - width / 2 //This centeres the Text
       y: isTop ? main.height - height - 135 * PlasmaCore.Units.devicePixelRatio : 80 * PlasmaCore.Units.devicePixelRatio
-      text: plasmoid.configuration.enableGreeting && plasmoid.configuration.customGreeting ? plasmoid.configuration.customGreeting : plasmoid.configuration.enableGreeting ? 'Hi, ' + kuser.fullName : i18n("%1@%2", kuser.loginName, kuser.host)
+      text: plasmoid.configuration.enableGreeting && plasmoid.configuration.customGreeting ? plasmoid.configuration.customGreeting : plasmoid.configuration.enableGreeting ? i18n("Hi, ") + kuser.fullName : i18n("%1@%2", kuser.loginName, kuser.host)
       color: textColor
       font.family: textFont
       font.pixelSize: 16 * PlasmaCore.Units.devicePixelRatio
